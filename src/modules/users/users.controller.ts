@@ -13,9 +13,9 @@ export class UsersController {
   @Get('teste')
   async test() {
     return {
+      ok: true,
       jwtSecret: process.env.JWT_SECRET,
-      databaseUri: process.env.DATABASE_URI,
-      processEnv: process.env,
+      databaseUri: process.env.DATABASE_URI
     }
   }
 

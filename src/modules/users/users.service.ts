@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { comparePassword, encryptPassword } from 'src/common/utils/encrypter';
+import { generateJwtToken } from 'src/common/utils/generateJwtToken';
 import { UsersRepository } from './users.repository';
 import { SignUpDTO } from './dto/sign-up-dto';
 import { LoginDTO } from './dto/login-dto';
-import { generateJwtToken } from 'src/common/utils/generateJwtToken';
-import { comparePassword, encryptPassword } from 'src/common/utils/encrypter';
 
 @Injectable()
 export class UsersService {

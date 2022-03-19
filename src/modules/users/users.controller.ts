@@ -28,13 +28,4 @@ export class UsersController {
   async getMe(@Headers() headers) {
     return await getUserByHeadersToken({ headers });
   }
-
-  // TODO :: So pra deixar salvo
-  @Put(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateBody: SignUpDTO
-  ) {
-    //
-  }
 }

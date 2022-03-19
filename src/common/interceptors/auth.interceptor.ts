@@ -14,6 +14,10 @@ export class AuthInterceptor implements NestInterceptor {
     const { authorization } = request.headers;
 
     if (!authorization) {
+      throw new UnauthorizedException('Provide an authorization token in headers.');
+    }
+
+    if (authorization.trim() === 'Bearer') {
       throw new UnauthorizedException('Provide a JWT token.');
     }
 

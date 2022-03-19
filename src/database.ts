@@ -1,5 +1,9 @@
-import { Logger } from '@nestjs/common';
+import { Logger, ServiceUnavailableException } from '@nestjs/common';
 import mongoose from 'mongoose';
+
+if (!process.env.DATABASE_URI) {
+  throw new ServiceUnavailableException('Provide correct database_uri');
+}
 
 class Database {
   private readonly logger = new Logger(Database.name);

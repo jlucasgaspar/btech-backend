@@ -10,6 +10,15 @@ export class UsersController {
     private readonly usersService: UsersService
   ) {}
 
+  @Get('teste')
+  async test() {
+    return {
+      jwtSecret: process.env.JWT_SECRET,
+      databaseUri: process.env.DATABASE_URI,
+      processEnv: process.env,
+    }
+  }
+
   @Post('login')
   async login(
     @Body() loginDto: LoginDTO

@@ -1,5 +1,5 @@
-import { Controller, Post, Body, Param, Put, Get, Headers } from '@nestjs/common';
-import { getUserByHeadersToken } from 'src/common/utils/getUserByHeadersToken';
+import { Controller, Post, Body, Get, Headers } from '@nestjs/common';
+import { getUserByHeadersToken } from '../../common/utils/getUserByHeadersToken';
 import { LoginDTO } from './dto/login-dto';
 import { SignUpDTO } from './dto/sign-up-dto';
 import { UsersService } from './users.service';

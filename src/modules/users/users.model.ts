@@ -7,7 +7,7 @@ export type User = {
   password: string;
 }
 
-const UserSchema = new Schema<User>({
+const schema = new Schema<User>({
   name: {
     type: String,
     required: [true, 'Name required']
@@ -18,16 +18,14 @@ const UserSchema = new Schema<User>({
   },
   email: {
     type: String,
-    // trim: true,
     lowercase: true,
     unique: true,
     validate: {
       validator: validator.isEmail,
       message: '{VALUE} is not a valid email',
-      // isAsync: false
     },
     required: [true, 'Email required']
   },
 });
 
-export const UserModel = model<User>('User', UserSchema, 'users');
+export const UserModel = model('User', schema, 'users');

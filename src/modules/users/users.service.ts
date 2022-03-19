@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { comparePassword, encryptPassword } from 'src/common/utils/encrypter';
-import { generateJwtToken } from 'src/common/utils/generateJwtToken';
+import { comparePassword, encryptPassword } from '../../common/utils/encrypter';
+import { generateJwtToken } from '../../common/utils/generateJwtToken';
 import { UsersRepository } from './users.repository';
 import { SignUpDTO } from './dto/sign-up-dto';
 import { LoginDTO } from './dto/login-dto';
@@ -14,7 +14,7 @@ export class UsersService {
   async signUp({ email, password, name }: SignUpDTO) {
     const hasEmail = await this.usersRepository.findByEmail(email);
     if (hasEmail) {
-      throw new NotFoundException(`E-mail ${email} already exists.`);
+      throw new BadRequestException(`E-mail ${email} already exists.`);
     }
 
     const hashedPassword = await encryptPassword(password);

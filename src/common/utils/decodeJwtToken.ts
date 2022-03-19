@@ -1,5 +1,6 @@
-import { BadRequestException } from '@nestjs/common';
+import 'dotenv/config';
 import * as jwt from 'jsonwebtoken';
+import { BadRequestException } from '@nestjs/common';
 
 const { JWT_SECRET } = process.env;
 

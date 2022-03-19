@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Headers, Param, Post, Put } from '@nestjs/common';
-import { getUserByHeadersToken } from 'src/common/utils/getUserByHeadersToken';
+import { getUserByHeadersToken } from '../../common/utils/getUserByHeadersToken';
 import { UpdateTasktDTO } from './dto/update-task-dto';
 import { CreateTaskDTO } from './dto/create-task.dto';
 import { TasksService } from './tasks.service';

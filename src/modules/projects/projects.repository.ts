@@ -1,33 +1,54 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { IProjectsRepository } from './interfaces/projects.repository.interface';
 import { Project, ProjectModel } from './projects.model';
 
+type Model = Project & { _id: string; }
+
 @Injectable()
-export class ProjectsRepository {
-  async insert({ name, userId }: Pick<Project, 'name' | 'userId'>) {
+export class ProjectsRepository implements IProjectsRepository {
+  async insert({ name, userId }: Pick<Project, 'name' | 'userId'>): Promise<Model> {
     try {
-      return await ProjectModel.create({ name, userId });
+      const data = await ProjectModel.create({ name, userId });
+      return {
+        _id: String(data._id),
+        name: data.name,
+        userId: data.userId,
+        createdAt: data.createdAt
+      }
     } catch (err) {
       throw new BadRequestException(err.message, err.stack);
     }
   }
 
-  async update(id: string, projectData: Partial<Pick<Project, 'name'>>) {
+  async update(id: string, projectData: Partial<Pick<Project, 'name' | 'userId'>>): Promise<Model> {
     try {
-      return await ProjectModel.findOneAndUpdate({ _id: id }, { $set: projectData }, { new: true });
+      const data = await ProjectModel.findOneAndUpdate({ _id: id }, { $set: projectData }, { new: true });
+      return {
+        _id: String(data._id),
+        createdAt: data.createdAt,
+        name: data.name,
+        userId: data.userId
+      }
     } catch (err) {
       throw new BadRequestException(err.message, err.stack);
     }
   }
 
-  async delete(id: string) {
+  async delete(id: string): Promise<Model> {
     try {
-      return await ProjectModel.findOneAndDelete({ _id: id });
+      const data = await ProjectModel.findOneAndDelete({ _id: id });
+      return {
+        _id: String(data._id),
+        createdAt: data.createdAt,
+        name: data.name,
+        userId: data.userId
+      }
     } catch (err) {
       throw new BadRequestException(err.message, err.stack);
     }
   }
 
-  async findById(id: string) {
+  async findById(id: string): Promise<Model> {
     try {
       return await ProjectModel.findById(id);
     } catch (err) {
@@ -35,17 +56,29 @@ export class ProjectsRepository {
     }
   }
 
-  async findByUserId(userId: string) {
+  async findByUserId(userId: string): Promise<Model[]> {
     try {
-      return await ProjectModel.find({ userId }).sort({ createdAt: -1 });
+      const data = await ProjectModel.find({ userId }).sort({ createdAt: -1 });
+      return data.map(_ => ({
+        _id: String(_._id),
+        createdAt: _.createdAt,
+        name: _.name,
+        userId: _.userId
+      }));
     } catch (err) {
       throw new BadRequestException(err.message, err.stack);
     }
   }
 
-  async findByUserIdAndName(userId: string, name: string) {
+  async findByUserIdAndName(userId: string, name: string): Promise<Model | undefined> {
     try {
-      return await ProjectModel.findOne({ userId, name });
+      const data = await ProjectModel.findOne({ userId, name });
+      return {
+        _id: String(data._id),
+        createdAt: data.createdAt,
+        name: data.name,
+        userId: data.userId
+      }
     } catch (err) {
       throw new BadRequestException(err.message, err.stack);
     }

@@ -69,5 +69,7 @@ export class ProjectsService {
       const tasks = await this.tasksRepository.findAllByProjectId(String(proj._id));
       finalResult.push({ ...proj, tasks });
     }
+
+    return finalResult;
   }
 }

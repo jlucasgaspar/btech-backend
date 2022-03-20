@@ -1,4 +1,4 @@
-import sg from '@sendgrid/mail';
+import * as sg from '@sendgrid/mail';
 
 type Params = {
   to: string;

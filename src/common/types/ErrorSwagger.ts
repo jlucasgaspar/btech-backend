@@ -5,8 +5,8 @@ export class ErrorSwagger {
   statusCode: number;
 
   @ApiProperty()
-  message: number;
+  message: string;
 
   @ApiProperty()
-  error: number;
+  error: string;
 }

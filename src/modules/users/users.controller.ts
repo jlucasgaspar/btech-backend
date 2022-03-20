@@ -12,14 +12,14 @@ export class UsersController {
     private readonly usersService: UsersService
   ) {}
 
-  @Post('public/login')
+  @Post('login')
   async login(
     @Body() loginDto: LoginDTO
   ) {
     return await this.usersService.login(loginDto);
   }
 
-  @Post('public/signup')
+  @Post('signup')
   async signUp(
     @Body() signUpDto: SignUpDTO
   ) {
@@ -31,14 +31,14 @@ export class UsersController {
     return await getUserByHeadersToken({ headers });
   }
 
-  @Post('public/forgot-password')
+  @Post('forgot-password')
   async sendForgotPasswordEmail(
     @Body() { email }: SendForgotPasswordEmailDTO
   ) {
     return await this.usersService.sendForgotPasswordCode({ email });
   }
 
-  @Post('public/change-password')
+  @Post('change-password')
   async changePassword(
     @Body() changePasswordDto: ChangePasswordDTO
   ) {

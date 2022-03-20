@@ -23,9 +23,18 @@ export class TasksRepository implements ITaskRepository {
     }
   }
 
-  async update(_id: string, projectData: Partial<Task>): Promise<Model> {
+  async update(_id: string, taskData: Partial<Task>): Promise<Model> {
     try {
-      const data = await TaskModel.findOneAndUpdate({ _id }, { $set: projectData }, { new: true });
+      const data = await TaskModel.findOneAndUpdate({
+        _id
+      }, {
+        $set: {
+          ...taskData,
+          finishedAt: taskData.isDone ? new Date() : null
+        }
+      }, {
+        new: true
+      });
       return {
         _id: String(data._id),
         projectId: data.projectId,

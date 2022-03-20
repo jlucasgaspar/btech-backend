@@ -4,7 +4,7 @@ import { Task } from '../tasks.model';
 type Model = Task & { _id: string; }
 
 export class TasksRepositoryMock implements ITaskRepository {
-  private tasksDatabase: Model[] = [];
+  tasksDatabase: Model[] = [];
 
   cleanRepository() {
     return this.tasksDatabase = [];
@@ -26,7 +26,11 @@ export class TasksRepositoryMock implements ITaskRepository {
   
     this.tasksDatabase.map(data => {
       if (data._id === _id) {
-        updatedData = { ...data, ...params }
+        updatedData = {
+          ...data,
+          ...params,
+          finishedAt: params.isDone ? new Date() : null
+        }
         return updatedData;
       } else {
         return data;

@@ -12,10 +12,14 @@ export class TasksService {
   ) {}
 
   async create({ title, userId, projectId }: CreateTaskDTO & { userId: string; }) {
-    const hasProject = await this.projectsRepository.findById(projectId);
+    const project = await this.projectsRepository.findById(projectId);
 
-    if (!hasProject) {
+    if (!project) {
       throw new NotFoundException('Project not found.');
+    }
+
+    if (project.userId !== userId) {
+      throw new BadRequestException('This project does not refer to your userId.');
     }
 
     return await this.tasksRepository.insert({ title, projectId, userId });
@@ -32,15 +36,11 @@ export class TasksService {
       throw new UnauthorizedException('You can not update this task.');
     }
 
-    if (task.isDone && title) {
-      throw new BadRequestException('You can not edit name of a task that is already done.');
+    if (task.isDone) {
+      throw new BadRequestException('You can not edit a task that is already done.');
     }
 
-    return await this.tasksRepository.update(_id, {
-      finishedAt: isDone ? new Date() : null,
-      isDone,
-      title
-    });
+    return await this.tasksRepository.update(_id, { isDone, title });
   }
 
   async delete(_id: string, userId: string) {

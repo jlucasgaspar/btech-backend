@@ -7,8 +7,8 @@ export class UpdateTasktDTO {
   _id: string;
 
   @JoiSchema(Joi.string().optional())
-  title: string;
+  title?: string;
 
   @JoiSchema(Joi.boolean().optional())
-  isDone: boolean;
+  isDone?: boolean;
 }

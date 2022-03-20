@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Headers, Param, Post, Put } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags, ApiResponse } from '@nestjs/swagger';
 import { getUserByHeadersToken } from '../../common/utils/getUserByHeadersToken';
+import { ErrorSwagger } from '../../common/types/ErrorSwagger';
 import { UpdateTasktDTO } from './dto/update-task-dto';
 import { CreateTaskDTO } from './dto/create-task.dto';
 import { TasksService } from './tasks.service';
@@ -15,6 +16,8 @@ export class TasksController {
   @Post()
   @ApiOperation({ summary: 'Create task' })
   @ApiResponse({ status: 200, description: 'Task created', type: Task })
+  @ApiResponse({ status: 400, description: 'Bad request', type: ErrorSwagger })
+  @ApiResponse({ status: 404, description: 'Not found', type: ErrorSwagger })
   async create(
     @Body() createProjectDto: CreateTaskDTO,
     @Headers() headers
@@ -27,6 +30,8 @@ export class TasksController {
   @Put()
   @ApiOperation({ summary: 'Udate task' })
   @ApiResponse({ status: 200, description: 'Task updated', type: Task })
+  @ApiResponse({ status: 400, description: 'Bad request', type: ErrorSwagger })
+  @ApiResponse({ status: 404, description: 'Not found', type: ErrorSwagger })
   async update(
     @Body() updateTaskDTO: UpdateTasktDTO,
     @Headers() headers
@@ -39,6 +44,8 @@ export class TasksController {
   @Delete(':_id')
   @ApiOperation({ summary: 'Delete task by ID' })
   @ApiResponse({ status: 200, description: 'Task deleted', type: Task })
+  @ApiResponse({ status: 400, description: 'Bad request', type: ErrorSwagger })
+  @ApiResponse({ status: 404, description: 'Not found', type: ErrorSwagger })
   async delete(
     @Param('_id') _id: string,
     @Headers() headers
@@ -50,6 +57,8 @@ export class TasksController {
   @Get(':projectId')
   @ApiOperation({ summary: 'Get all tasks by project ID' })
   @ApiResponse({ status: 200, description: 'Found tasks', type: Task, isArray: true })
+  @ApiResponse({ status: 400, description: 'Bad request', type: ErrorSwagger })
+  @ApiResponse({ status: 404, description: 'Not found', type: ErrorSwagger })
   async getByProjectId(
     @Param('projectId') projectId: string,
     @Headers() headers

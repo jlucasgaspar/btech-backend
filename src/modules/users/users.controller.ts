@@ -1,5 +1,6 @@
 import { Controller, Post, Body, Get, Headers } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ErrorSwagger } from '../../common/types/ErrorSwagger';
 import { getUserByHeadersToken } from '../../common/utils/getUserByHeadersToken';
 import { ChangePasswordDTO } from './dto/change-password.dto';
 import { LoginDTO } from './dto/login.dto';
@@ -18,6 +19,8 @@ export class UsersController {
   @Post('login')
   @ApiOperation({ summary: 'Login user' })
   @ApiResponse({ status: 200, description: 'User logged in', type: LoginSwaggerResponse })
+  @ApiResponse({ status: 400, description: 'Bad request', type: ErrorSwagger })
+  @ApiResponse({ status: 404, description: 'Not found', type: ErrorSwagger })
   async login(
     @Body() loginDto: LoginDTO
   ) {
@@ -27,6 +30,8 @@ export class UsersController {
   @Post('signup')
   @ApiOperation({ summary: 'Signup user' })
   @ApiResponse({ status: 200, description: 'User signed up', type: SignUpSwaggerResponse })
+  @ApiResponse({ status: 400, description: 'Bad request', type: ErrorSwagger })
+  @ApiResponse({ status: 404, description: 'Not found', type: ErrorSwagger })
   async signUp(
     @Body() signUpDto: SignUpDTO
   ) {
@@ -37,6 +42,7 @@ export class UsersController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get me' })
   @ApiResponse({ status: 200, description: 'Found me', type: GetMeSwaggerResponse })
+  @ApiResponse({ status: 404, description: 'Not found', type: ErrorSwagger })
   async getMe(@Headers() headers) {
     return await getUserByHeadersToken({ headers });
   }
@@ -44,6 +50,7 @@ export class UsersController {
   @Post('forgot-password')
   @ApiOperation({ summary: 'Send forgot password e-mail' })
   @ApiResponse({ status: 200, description: 'E-mail sent', type: Boolean })
+  @ApiResponse({ status: 400, description: 'Bad request', type: ErrorSwagger })
   async sendForgotPasswordEmail(
     @Body() { email }: SendForgotPasswordEmailDTO
   ) {

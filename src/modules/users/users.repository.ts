@@ -19,6 +19,25 @@ export class UsersRepository implements IUsersRepository {
     }
   }
 
+  async update(_id: string, userData: Partial<User>): Promise<Omit<Model, 'password'>> {
+    try {
+      const result = await UserModel.findOneAndUpdate(
+        { _id },
+        { $set: userData },
+        { new: true }
+      );
+
+      return {
+        _id: String(result._id),
+        email: result.email,
+        forgotPasswordCode: result.forgotPasswordCode,
+        name: result.name
+      }
+    } catch (err) {
+      throw new BadRequestException(err.message, err.stack);
+    }
+  }
+
   async findByEmail(email: string): Promise<Omit<Model, 'password'>> {
     try {
       const user = await UserModel.findOne({ email });
@@ -26,6 +45,7 @@ export class UsersRepository implements IUsersRepository {
       return {
         _id: String(user._id),
         email: user.email,
+        forgotPasswordCode: user.forgotPasswordCode,
         name: user.name
       }
     } catch (err) {

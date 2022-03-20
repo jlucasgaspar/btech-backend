@@ -7,7 +7,7 @@ export class AuthInterceptor implements NestInterceptor {
   async intercept(context: ExecutionContext, next: CallHandler<any>) {
     const request = context.switchToHttp().getRequest<Request>();
 
-    if (request.url.includes('login') || request.url.includes('signup')) {
+    if (request.url.includes('public')) {
       return next.handle();
     }
 

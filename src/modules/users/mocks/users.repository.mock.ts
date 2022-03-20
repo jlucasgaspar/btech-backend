@@ -10,16 +10,35 @@ export class UsersRepositoryMock implements IUsersRepository {
     return this.usersDatabase = [];
   }
 
-  async insert({ email, name, password }: User) {
+  async insert({ email, name, password, forgotPasswordCode }: User) {
     const data = {
       _id: String(this.usersDatabase.length + 1),
       email,
       name,
-      password
+      password,
+      forgotPasswordCode
     }
 
     this.usersDatabase.push(data);
     return data;
+  }
+
+  async update(_id: string, params: Partial<User>): Promise<Model> {
+    let updatedData: Model;
+
+    this.usersDatabase.map(data => {
+      if (data._id === _id) {
+        updatedData = {
+          ...data,
+          ...params
+        }
+        return updatedData;
+      } else {
+        return data;
+      }
+    });
+
+    return updatedData;
   }
 
   async findByEmail(email: string) {

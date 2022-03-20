@@ -5,6 +5,7 @@ export type User = {
   name: string;
   email: string;
   password: string;
+  forgotPasswordCode?: string;
 }
 
 const schema = new Schema<User>({
@@ -15,6 +16,9 @@ const schema = new Schema<User>({
   password: {
     type: String,
     required: [true, 'Password required']
+  },
+  forgotPasswordCode: {
+    type: String,
   },
   email: {
     type: String,

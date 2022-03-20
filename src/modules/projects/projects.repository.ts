@@ -20,9 +20,9 @@ export class ProjectsRepository implements IProjectsRepository {
     }
   }
 
-  async update(id: string, projectData: Partial<Pick<Project, 'name' | 'userId'>>): Promise<Model> {
+  async update(_id: string, projectData: Partial<Pick<Project, 'name' | 'userId'>>): Promise<Model> {
     try {
-      const data = await ProjectModel.findOneAndUpdate({ _id: id }, { $set: projectData }, { new: true });
+      const data = await ProjectModel.findOneAndUpdate({ _id }, { $set: projectData }, { new: true });
       return {
         _id: String(data._id),
         createdAt: data.createdAt,
@@ -34,9 +34,9 @@ export class ProjectsRepository implements IProjectsRepository {
     }
   }
 
-  async delete(id: string): Promise<Model> {
+  async delete(_id: string): Promise<Model> {
     try {
-      const data = await ProjectModel.findOneAndDelete({ _id: id });
+      const data = await ProjectModel.findOneAndDelete({ _id });
       return {
         _id: String(data._id),
         createdAt: data.createdAt,
@@ -48,9 +48,16 @@ export class ProjectsRepository implements IProjectsRepository {
     }
   }
 
-  async findById(id: string): Promise<Model> {
+  async findById(id: string): Promise<Model | undefined> {
     try {
-      return await ProjectModel.findById(id);
+      const data = await ProjectModel.findById(id);
+      if (!data) return undefined;
+      return {
+        _id: String(data._id),
+        createdAt: data.createdAt,
+        name: data.name,
+        userId: data.userId
+      }
     } catch (err) {
       throw new BadRequestException(err.message, err.stack);
     }
@@ -73,6 +80,7 @@ export class ProjectsRepository implements IProjectsRepository {
   async findByUserIdAndName(userId: string, name: string): Promise<Model | undefined> {
     try {
       const data = await ProjectModel.findOne({ userId, name });
+      if (!data) return undefined;
       return {
         _id: String(data._id),
         createdAt: data.createdAt,

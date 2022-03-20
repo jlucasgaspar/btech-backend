@@ -21,8 +21,8 @@ export class TasksService {
     return await this.tasksRepository.insert({ title, projectId, userId });
   }
 
-  async update({ id, title, userId, isDone }: UpdateTasktDTO & { userId: string }) {
-    const task = await this.tasksRepository.findById(id);
+  async update({ _id, title, userId, isDone }: UpdateTasktDTO & { userId: string }) {
+    const task = await this.tasksRepository.findById(_id);
 
     if (!task) {
       throw new NotFoundException('Task not found.');
@@ -36,15 +36,15 @@ export class TasksService {
       throw new BadRequestException('You can not edit name of a task that is already done.');
     }
 
-    return await this.tasksRepository.update(id, {
+    return await this.tasksRepository.update(_id, {
       finishedAt: isDone ? new Date() : null,
       isDone,
       title
     });
   }
 
-  async delete(id: string, userId: string) {
-    const task = await this.tasksRepository.findById(id);
+  async delete(_id: string, userId: string) {
+    const task = await this.tasksRepository.findById(_id);
 
     if (!task) {
       throw new NotFoundException('Task not found.');
@@ -58,7 +58,7 @@ export class TasksService {
       throw new BadRequestException('You can not delete a task that is already done.');
     }
 
-    return await this.tasksRepository.delete(id);
+    return await this.tasksRepository.delete(_id);
   }
 
   async getTasksByProject(projectId: string, userId: string) {

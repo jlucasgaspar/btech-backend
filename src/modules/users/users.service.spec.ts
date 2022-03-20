@@ -1,5 +1,4 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { comparePassword } from '../../common/utils/encrypter';
 import { userMock } from './mocks/users.mock';
 import { UsersRepositoryMock } from './mocks/users.repository.mock';
 import { UsersService } from './users.service';

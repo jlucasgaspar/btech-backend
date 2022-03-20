@@ -1,11 +1,26 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Schema, model } from 'mongoose';
 
-export type Task = {
+export class Task {
+  @ApiProperty()
+  _id: string;
+  
+  @ApiProperty()
   userId: string;
+  
+  @ApiProperty()
   projectId: string;
+
+  @ApiProperty()
   title: string;
+
+  @ApiProperty()
   isDone: boolean;
+
+  @ApiProperty()
   createdAt: Date;
+
+  @ApiProperty()
   finishedAt: Date | null;
 }
 

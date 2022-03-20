@@ -1,8 +1,17 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Schema, model } from 'mongoose';
 
-export type Project = {
+export class Project {
+  @ApiProperty()
+  _id: string;
+
+  @ApiProperty()
   name: string;
+
+  @ApiProperty()
   userId: string;
+
+  @ApiProperty()
   createdAt: Date;
 }
 

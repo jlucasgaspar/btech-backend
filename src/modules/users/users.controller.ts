@@ -42,6 +42,6 @@ export class UsersController {
   async changePassword(
     @Body() changePasswordDto: ChangePasswordDTO
   ) {
-    // return await this.usersService.
+    return await this.usersService.changePassword(changePasswordDto);
   }
 }

@@ -8,7 +8,7 @@ type Model = Task & { _id: string; };
 export class TasksRepository implements ITaskRepository {
   async insert({ title, projectId, userId }: Pick<Task, 'title' | 'projectId' | 'userId'>): Promise<Model> {
     try {
-      const data = await TaskModel.create({ title, projectId, userId })
+      const data = await TaskModel.create({ title, projectId, userId, createdAt: new Date() })
       return {
         _id: String(data._id),
         projectId: data.projectId,

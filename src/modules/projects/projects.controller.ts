@@ -23,18 +23,18 @@ export class ProjectsController {
     @Body() updateProjectDTO: UpdateProjectDTO,
     @Headers() headers
   ) {
-    const { id, name } = updateProjectDTO;
+    const { _id, name } = updateProjectDTO;
     const user = await getUserByHeadersToken({ headers });
-    return await this.projectsService.update({ id, name, userId: String(user._id) });
+    return await this.projectsService.update({ _id, name, userId: String(user._id) });
   }
 
-  @Delete(':id')
+  @Delete(':_id')
   async delete(
-    @Param('id') id: string,
+    @Param('_id') _id: string,
     @Headers() headers
   ) {
     const user = await getUserByHeadersToken({ headers });
-    return await this.projectsService.delete(id, String(user._id));
+    return await this.projectsService.delete(_id, String(user._id));
   }
 
   @Get(':userId')

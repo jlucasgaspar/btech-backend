@@ -23,18 +23,18 @@ export class TasksController {
     @Body() updateTaskDTO: UpdateTasktDTO,
     @Headers() headers
   ) {
-    const { id, title, isDone } = updateTaskDTO;
+    const { _id, title, isDone } = updateTaskDTO;
     const user = await getUserByHeadersToken({ headers });
-    return await this.tasksService.update({ id, title, isDone, userId: String(user._id) });
+    return await this.tasksService.update({ _id, title, isDone, userId: String(user._id) });
   }
 
-  @Delete(':id')
+  @Delete(':_id')
   async delete(
-    @Param('id') id: string,
+    @Param('_id') _id: string,
     @Headers() headers
   ) {
     const user = await getUserByHeadersToken({ headers });
-    return await this.tasksService.delete(id, String(user._id));
+    return await this.tasksService.delete(_id, String(user._id));
   }
 
   @Get(':projectId')

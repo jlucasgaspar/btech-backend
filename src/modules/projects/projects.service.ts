@@ -22,16 +22,16 @@ export class ProjectsService {
     return { ...project, tasks: [] }
   }
 
-  async update({ id, name, userId }: UpdateProjectDTO & { userId: string }) {
+  async update({ _id, name, userId }: UpdateProjectDTO & { userId: string }) {
     if (name) {
       const nameExists = await this.projectsRepository.findByUserIdAndName(userId, name);
 
-      if (nameExists && id !== String(nameExists._id)) {
+      if (nameExists && _id !== String(nameExists._id)) {
         throw new BadRequestException('You already registered a project with this name');
       }
     }
 
-    const project = await this.projectsRepository.findById(id);
+    const project = await this.projectsRepository.findById(_id);
 
     if (!project) {
       throw new NotFoundException('Project not found');
@@ -41,8 +41,8 @@ export class ProjectsService {
       throw new UnauthorizedException('You can not update this project');
     }
 
-    const updatedProject = await this.projectsRepository.update(id, { name });
-    const tasks = await this.tasksRepository.findAllByProjectId(id);
+    const updatedProject = await this.projectsRepository.update(_id, { name });
+    const tasks = await this.tasksRepository.findAllByProjectId(_id);
     return { ...updatedProject, tasks }
   }
 

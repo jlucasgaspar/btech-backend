@@ -36,7 +36,7 @@ export class TasksService {
       throw new UnauthorizedException('You can not update this task.');
     }
 
-    if (task.isDone) {
+    if (task.isDone && title) {
       throw new BadRequestException('You can not edit a task that is already done.');
     }
 
